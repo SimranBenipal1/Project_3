@@ -10,6 +10,7 @@ import com.skillstorm.demo.services.UserService;
 
 @RestController
 @RequestMapping("/users")
+@CrossOrigin
 public class UserController {
     private final UserService userService;
 

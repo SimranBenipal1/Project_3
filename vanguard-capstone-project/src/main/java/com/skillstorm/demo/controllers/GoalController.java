@@ -12,6 +12,7 @@ import com.skillstorm.demo.services.GoalService;
 
 @RestController
 @RequestMapping("/goals")
+@CrossOrigin
 public class GoalController {
 
     private GoalService goalService;
