@@ -9,5 +9,5 @@ import com.skillstorm.demo.models.Goal;
 
 @Repository
 public interface GoalRepository extends JpaRepository<Goal, Long> {
-    List<Goal> findAllByUserId(Long userId);
+    List<Goal> findBySub(String subValue);
 }

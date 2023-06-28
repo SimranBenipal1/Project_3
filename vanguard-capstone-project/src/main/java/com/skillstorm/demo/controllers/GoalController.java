@@ -22,17 +22,21 @@ public class GoalController {
         this.goalService = goalService;
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Goal>> getAllGoalsByUserId(@PathVariable Long userId) {
-        List<Goal> goals = goalService.getAllGoalsByUserId(userId);
-        return new ResponseEntity<>(goals, HttpStatus.OK);
-    }
-
     @GetMapping("/{goalId}")
     public ResponseEntity<Goal> getGoalById(@PathVariable Long goalId) {
         Goal goal = goalService.getGoalById(goalId);
         if (goal != null) {
             return new ResponseEntity<>(goal, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    
+    @GetMapping("/sub/{subValue}")
+    public ResponseEntity<List<Goal>> getGoalsBySub(@PathVariable String subValue) {
+        List<Goal> goals = goalService.getGoalsBySub(subValue);
+        if (!goals.isEmpty()) {
+            return new ResponseEntity<>(goals, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

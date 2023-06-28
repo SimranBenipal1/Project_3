@@ -19,9 +19,17 @@ public class Goal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    /*
+     * An identifier for the user, unique among all Google accounts and never reused. 
+     * A Google account can have multiple email addresses at different points in time, 
+     * but the sub value is never changed. Use sub within your application as the 
+     * unique-identifier key for the user. Maximum length of 255 case-sensitive ASCII 
+     * characters.
+     * 
+     * https://developers.google.com/identity/openid-connect/openid-connect
+     */
+    @Column(nullable = false)
+    private String sub;
     
     @Column(nullable = false)
     private String name;
@@ -45,11 +53,11 @@ public class Goal {
     	
     }
 
-	public Goal(Long id, User user, String name, String description, String picture, LocalDate targetDate,
+	public Goal(Long id, String sub, String name, String description, String picture, LocalDate targetDate,
 			double targetAmount, double currentlySavedAmount) {
 		super();
 		this.id = id;
-		this.user = user;
+		this.sub = sub;
 		this.name = name;
 		this.description = description;
 		this.picture = picture;
@@ -57,6 +65,8 @@ public class Goal {
 		this.targetAmount = targetAmount;
 		this.currentlySavedAmount = currentlySavedAmount;
 	}
+
+
 
 	public Long getId() {
 		return id;
@@ -66,12 +76,12 @@ public class Goal {
 		this.id = id;
 	}
 
-	public User getUser() {
-		return user;
+	public String getSub() {
+		return sub;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setSub(String sub) {
+		this.sub = sub;
 	}
 
 	public String getName() {

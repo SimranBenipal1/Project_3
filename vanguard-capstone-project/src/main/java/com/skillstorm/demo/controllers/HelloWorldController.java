@@ -22,14 +22,17 @@ public class HelloWorldController {
 	
 	@Value("${my.env.mode}") 
 	private String mode;
-	
-	@Autowired
-	private OAuth2AuthorizedClientService clientService;
-	
+
 	@GetMapping("/hello")
 	public String helloWorld() {
 		return "You are Currently in: " + mode; 
 	}
+	
+	// Section Refactored to UserController.Java
+	
+	/*
+	@Autowired
+	private OAuth2AuthorizedClientService clientService;
 	
 	// Redirects the user to the frontend application (S3 bucket, localhost:5173)
 	// Users should ONLY access the app using this
@@ -59,5 +62,6 @@ public class HelloWorldController {
 		}
 		return "";
 	}
+	*/
 	
 }

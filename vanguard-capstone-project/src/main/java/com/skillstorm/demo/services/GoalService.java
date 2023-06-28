@@ -17,9 +17,9 @@ public class GoalService {
     public GoalService(GoalRepository goalRepository) {
         this.goalRepository = goalRepository;
     }
-
-    public List<Goal> getAllGoalsByUserId(Long userId) {
-        return goalRepository.findAllByUserId(userId);
+    
+    public List<Goal> getGoalsBySub(String subValue) {
+        return goalRepository.findBySub(subValue);
     }
 
     public Goal getGoalById(Long goalId) {
