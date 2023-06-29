@@ -20,6 +20,7 @@ import com.skillstorm.demo.services.S3Service;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.UUID;
 
 @RestController
 public class S3Controller {
@@ -59,8 +60,11 @@ public class S3Controller {
             String fileName = file.getOriginalFilename();
             long fileSize = file.getSize();
 
+            // Generate a random unique string
+            String uniqueString = UUID.randomUUID().toString();
+
             // Set the S3 bucket key
-            String bucketKey = fileName;
+            String bucketKey = uniqueString + "-" + fileName;
 
             // Create a PutObjectRequest with the bucket name and key
             PutObjectRequest putObjectRequest = PutObjectRequest.builder()
@@ -69,12 +73,20 @@ public class S3Controller {
                     .build();
 
             // Stream the file contents directly to S3 using the S3Client's putObject method
-            s3.putObject(putObjectRequest, RequestBody.fromInputStream(inputStream, fileSize));
+            PutObjectResponse response = s3.putObject(putObjectRequest, RequestBody.fromInputStream(inputStream, fileSize));
 
-            return "File uploaded successfully";
+            if (response.sdkHttpResponse().isSuccessful()) {
+                // Construct the URL of the uploaded file
+                String fileUrl = String.format("https://%s.s3.%s.amazonaws.com/%s", bucketName, Region.US_EAST_1.id(), bucketKey);
+                return fileUrl;
+            } else {
+                return "Failed to upload file";
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
             return "Failed to upload file";
         }
     }
+
 }
