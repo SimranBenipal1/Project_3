@@ -18,6 +18,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.skillstorm.demo.services.S3Service;
 
+import io.opentelemetry.api.GlobalOpenTelemetry;
+import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.api.trace.Tracer;
+import io.opentelemetry.instrumentation.annotations.WithSpan;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
@@ -54,8 +59,13 @@ public class S3Controller {
     }
 
     @PostMapping("/upload")
+    @WithSpan
     public String handleFileUpload(@RequestParam("file") MultipartFile file) {
+    	Tracer tracer = GlobalOpenTelemetry.getTracer("GoalManagementService");
+    	Span fileSpan = tracer.spanBuilder("handleFileUpload.configureFile").startSpan();
         try (InputStream inputStream = file.getInputStream()) {
+        	
+        	
             // Get the file name and size
             String fileName = file.getOriginalFilename();
             long fileSize = file.getSize();
@@ -66,6 +76,8 @@ public class S3Controller {
             // Set the S3 bucket key
             String bucketKey = uniqueString + "-" + fileName;
 
+            fileSpan.end();
+            Span bucketPutSpan = tracer.spanBuilder("handleFileUpload.bucketPut").startSpan();
             // Create a PutObjectRequest with the bucket name and key
             PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                     .bucket(bucketName)
@@ -78,12 +90,15 @@ public class S3Controller {
             if (response.sdkHttpResponse().isSuccessful()) {
                 // Construct the URL of the uploaded file
                 String fileUrl = String.format("https://%s.s3.%s.amazonaws.com/%s", bucketName, Region.US_EAST_1.id(), bucketKey);
+            	bucketPutSpan.end();
                 return fileUrl;
             } else {
+            	bucketPutSpan.end();
                 return "Failed to upload file";
             }
 
         } catch (IOException e) {
+        	fileSpan.end();
             e.printStackTrace();
             return "Failed to upload file";
         }

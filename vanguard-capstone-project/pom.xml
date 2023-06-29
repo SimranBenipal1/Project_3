@@ -93,6 +93,11 @@
     		<artifactId>spring-boot-configuration-processor</artifactId>
     		<optional>true</optional>
 		</dependency>
+		<dependency>
+  			<groupId>io.honeycomb</groupId>
+  			<artifactId>honeycomb-opentelemetry-sdk</artifactId>
+ 			<version>1.5.2</version>
+		</dependency>
 
 	</dependencies>
 
