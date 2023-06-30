@@ -37,7 +37,10 @@ public class SecurityConfig {
 		// Configure cors at the Security level
 		http.cors().configurationSource(request -> {
 			CorsConfiguration corsConfig = new CorsConfiguration();
-			corsConfig.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
+	        corsConfig.setAllowedOrigins(Arrays.asList(
+	                "http://localhost:5173",
+	                "http://simran-proj-react-bucket.s3-website-us-east-1.amazonaws.com"
+	        ));
 			corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
 			corsConfig.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
 			corsConfig.setAllowCredentials(true); // Allows cookies
