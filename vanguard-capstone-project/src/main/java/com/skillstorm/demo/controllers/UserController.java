@@ -20,7 +20,7 @@ import org.springframework.web.servlet.view.RedirectView;
  * The Class UserController.
  */
 @RestController
-@CrossOrigin(allowCredentials = "true", originPatterns = "http://localhost:5173")
+@CrossOrigin(allowCredentials = "true", originPatterns = "http://simran-proj-react-bucket.s3-website-us-east-1.amazonaws.com")
 public class UserController {
 	
 	/** The client service. */
@@ -37,7 +37,7 @@ public class UserController {
 	// This is done to get the JSESSIONID cookie established (login with Google)
 	@GetMapping("/signin")
 	public RedirectView redirectView() {
-		RedirectView redirectView = new RedirectView("http://localhost:5173");
+		RedirectView redirectView = new RedirectView("http://simran-proj-react-bucket.s3-website-us-east-1.amazonaws.com");
 		return redirectView;
 	}
 	
