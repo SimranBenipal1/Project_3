@@ -16,15 +16,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
 
+/**
+ * The Class UserController.
+ */
 @RestController
 @CrossOrigin(allowCredentials = "true", originPatterns = "http://localhost:5173")
 public class UserController {
 	
+	/** The client service. */
 	@Autowired
 	private OAuth2AuthorizedClientService clientService;
 
 	// Redirects the user to the frontend application (S3 bucket, localhost:5173)
 	// Users should ONLY access the app using this
+	/**
+	 * Redirect view.
+	 *
+	 * @return the redirect view
+	 */
 	// This is done to get the JSESSIONID cookie established (login with Google)
 	@GetMapping("/signin")
 	public RedirectView redirectView() {
@@ -32,6 +41,12 @@ public class UserController {
 		return redirectView;
 	}
 	
+	/**
+	 * User info.
+	 *
+	 * @param user the user
+	 * @return the map
+	 */
 	@GetMapping("/userinfo")
 	@ResponseBody // Send the data as JSON
 	public Map<String, Object> userInfo(@AuthenticationPrincipal OAuth2User user) {
@@ -39,6 +54,12 @@ public class UserController {
 		return user.getAttributes();
 	}
 	
+	/**
+	 * Access token.
+	 *
+	 * @param auth the auth
+	 * @return the string
+	 */
 	// Return access token
 	@GetMapping("/access")
 	@ResponseBody

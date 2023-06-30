@@ -16,13 +16,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
 
+/**
+ * The Class HelloWorldController.
+ */
 @RestController
 @CrossOrigin(allowCredentials = "true", originPatterns = "http://localhost:5173")
 public class HelloWorldController {
 	
+	/** The mode. */
 	@Value("${my.env.mode}") 
 	private String mode;
 
+	/**
+	 * Hello world.
+	 *
+	 * @return the string
+	 */
 	@GetMapping("/hello")
 	public String helloWorld() {
 		return "You are Currently in: " + mode; 

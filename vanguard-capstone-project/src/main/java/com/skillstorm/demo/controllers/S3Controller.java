@@ -27,14 +27,26 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
 
+/**
+ * The Class S3Controller.
+ */
 @RestController
 public class S3Controller {
 
+    /** The s3 */
     private S3Client s3;
+    
+    /** The bucket name. */
     private final String bucketName = "simran-proj3-bucket";
 
+    /** The s3 service. */
     private final S3Service s3Service;
 
+    /**
+     * Instantiates a new s3 controller.
+     *
+     * @param s3Service the s3 service
+     */
     @Autowired
     public S3Controller(S3Service s3Service) {
         this.s3Service = s3Service;
@@ -58,6 +70,12 @@ public class S3Controller {
                 .build();
     }
 
+    /**
+     * Handle file upload.
+     *
+     * @param file the file
+     * @return The URL of the Uploaded Image
+     */
     @PostMapping("/upload")
     @WithSpan
     public String handleFileUpload(@RequestParam("file") MultipartFile file) {

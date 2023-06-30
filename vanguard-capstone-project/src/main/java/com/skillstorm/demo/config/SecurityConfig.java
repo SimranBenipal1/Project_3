@@ -10,9 +10,19 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
+/**
+ * The Class SecurityConfig.
+ */
 @Configuration
 public class SecurityConfig {
 
+	/**
+	 * Filter chain and cors config
+	 *
+	 * @param http the http
+	 * @return the security filter chain
+	 * @throws Exception the exception
+	 */
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
