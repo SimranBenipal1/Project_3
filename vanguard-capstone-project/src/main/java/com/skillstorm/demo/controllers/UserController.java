@@ -32,6 +32,7 @@ public class UserController {
 	/**
 	 * Redirect view.
 	 *
+	 *
 	 * @return the redirect view
 	 */
 	// This is done to get the JSESSIONID cookie established (login with Google)
